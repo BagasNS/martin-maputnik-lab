@@ -1,0 +1,36 @@
+services:
+  postgis:
+    platform: linux/x86_64
+    image: postgis/postgis:13-3.5
+    container_name: postgis
+    environment:
+      POSTGRES_USER: postgis_admin
+      POSTGRES_PASSWORD: postgis_admin
+      POSTGRES_DB: spatial_data
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  martin:
+    platform: linux/x86_64
+    image: ghcr.io/maplibre/martin:latest
+    container_name: martin
+    environment:
+      - DATABASE_URL=postgres://postgis_admin:postgis_admin@postgis/spatial_data
+    depends_on:
+      - postgis
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  maputnik:
+    platform: linux/x86_64
+    image: ghcr.io/maplibre/maputnik:main
+    container_name: maputnik
+    ports:
+      - "3001:8000"
+    depends_on:
+      - martin
+    restart: unless-stopped
