@@ -15,9 +15,9 @@ This project runs an educational vector-tile stack with PostGIS, Martin, and Map
 docker-compose up -d
 ```
 
-Access directly (no reverse proxy):
+Access directly:
 - Maputnik: http://localhost:3001/
-- Martin tiles: http://localhost:3000/tiles.json
+- Martin tiles: http://localhost:3000/catalog/
 - PostGIS: host `localhost`, port `5432`, db `spatial_data`, user `postgis_admin`, password `postgis_admin`
 
 Stop and clean up:
@@ -27,5 +27,5 @@ docker-compose down
 
 ## Notes
 - Martin uses the PostGIS connection string `postgres://postgis_admin:postgis_admin@postgis/spatial_data`.
-- Point Maputnik at the Martin tile JSON: `http://localhost:3000/catalog/[LAYER_NAME]`.
+- Point Maputnik at the Martin tile JSON: `http://localhost:3000/[LAYER_NAME]`.
 - For production or internet exposure, add proper security hardening (TLS, auth, restricted credentials). This setup is for educational use only.
